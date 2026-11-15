@@ -167,3 +167,9 @@ vaadin-drawer-toggle[disabled] {
     cursor: not-allowed;
     opacity: 0.6;
 }
+
+/* Aksesibilitas: teks status "Online" bawaan Vaadin berada di luar landmark.
+   Hanya status message yang disembunyikan; loading bar (.v-loading-indicator) tetap berfungsi. */
+vaadin-connection-indicator .v-status-message {
+    display: none !important;
+}
