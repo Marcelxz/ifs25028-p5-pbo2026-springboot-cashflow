@@ -38,6 +38,8 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
         this.userRepository = userRepository;
         this.userUseCase = userUseCase;
         this.fileStorage = fileStorage;
+        // Aksesibilitas: landmark <main>
+        getElement().setAttribute("role", "main");
     }
 
     @Override

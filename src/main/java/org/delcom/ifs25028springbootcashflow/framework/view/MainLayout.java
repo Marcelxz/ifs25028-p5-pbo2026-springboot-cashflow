@@ -6,6 +6,8 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -24,7 +26,8 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     private final IUserRepository userRepository;
     private final Div menuHolder = new Div();
-    private final Div drawerContent = new Div();
+    // Aksesibilitas: drawer menjadi landmark <nav>
+    private final Nav drawerContent = new Nav();
 
     public MainLayout(IUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -39,7 +42,12 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         bar.expand(title);
         bar.getStyle().set("padding-right", "var(--lumo-space-m)");
 
-        addToNavbar(bar);
+        // Aksesibilitas: navbar menjadi landmark <header>
+        Header header = new Header(bar);
+        header.setWidthFull();
+        addToNavbar(header);
+
+        drawerContent.getElement().setAttribute("aria-label", "Navigasi utama");
         addToDrawer(drawerContent);
         setPrimarySection(Section.DRAWER);
     }

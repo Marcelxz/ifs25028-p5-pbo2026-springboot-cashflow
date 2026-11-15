@@ -28,6 +28,8 @@ public class UsersView extends VerticalLayout implements BeforeEnterObserver {
     public UsersView(IUserRepository userRepository, UserUseCase userUseCase) {
         this.userRepository = userRepository;
         this.userUseCase = userUseCase;
+        // Aksesibilitas: landmark <main>
+        getElement().setAttribute("role", "main");
     }
 
     @Override

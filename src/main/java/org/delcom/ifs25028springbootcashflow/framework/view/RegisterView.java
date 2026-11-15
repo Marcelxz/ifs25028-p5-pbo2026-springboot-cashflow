@@ -3,6 +3,7 @@ package org.delcom.ifs25028springbootcashflow.framework.view;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
@@ -39,6 +40,8 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
         setSizeFull();
         setAlignItems(FlexComponent.Alignment.CENTER);
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        // Aksesibilitas: landmark <main> untuk seluruh isi halaman
+        getElement().setAttribute("role", "main");
 
         fullName.setWidthFull();
         username.setWidthFull();
@@ -52,9 +55,13 @@ public class RegisterView extends VerticalLayout implements BeforeEnterObserver 
         progress.setIndeterminate(true);
         progress.setVisible(false);
 
-        PageCard card = new PageCard("Daftar Akun Baru");
+        // Aksesibilitas: setiap halaman wajib memiliki satu <h1>
+        H1 heading = new H1("Daftar Akun Baru");
+        heading.getStyle().set("margin", "0").set("font-size", "var(--lumo-font-size-xl)");
+
+        PageCard card = new PageCard(null);
         card.addClassName("auth-card");
-        card.add(fullName, username, password, confirm, progress, registerButton,
+        card.add(heading, fullName, username, password, confirm, progress, registerButton,
                 new RouterLink("Sudah punya akun? Masuk", LoginView.class));
         add(card);
     }

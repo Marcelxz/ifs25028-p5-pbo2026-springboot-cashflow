@@ -58,6 +58,8 @@ public class FinanceView extends VerticalLayout implements BeforeEnterObserver {
         this.financeUseCase = financeUseCase;
         this.presenter = presenter;
         this.fileStorage = fileStorage;
+        // Aksesibilitas: landmark <main>
+        getElement().setAttribute("role", "main");
     }
 
     @Override

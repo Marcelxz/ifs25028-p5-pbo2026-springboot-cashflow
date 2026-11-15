@@ -3,6 +3,7 @@ package org.delcom.ifs25028springbootcashflow.framework.view;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Input;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.NativeLabel;
@@ -44,6 +45,8 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setSizeFull();
         setAlignItems(FlexComponent.Alignment.CENTER);
         setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        // Aksesibilitas: landmark <main> untuk seluruh isi halaman
+        getElement().setAttribute("role", "main");
 
         configure(username, "login-username", "text", "username");
         configure(password, "login-password", "password", "current-password");
@@ -57,9 +60,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         progress.setIndeterminate(true);
         progress.setVisible(false);
 
-        PageCard card = new PageCard("Masuk ke Cashflow");
+        // Aksesibilitas: setiap halaman wajib memiliki satu <h1>
+        H1 heading = new H1("Masuk ke Cashflow");
+        heading.getStyle().set("margin", "0").set("font-size", "var(--lumo-font-size-xl)");
+
+        PageCard card = new PageCard(null);
         card.addClassName("auth-card");
-        card.add(field("Username", username), field("Password", password), progress, loginButton,
+        card.add(heading, field("Username", username), field("Password", password), progress, loginButton,
                 new RouterLink("Belum punya akun? Daftar", RegisterView.class));
         add(card);
     }
@@ -83,8 +90,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     /** Membaca nilai kolom langsung dari browser saat tombol ditekan, lalu login. */
     private void readFormThenLogin() {
         UI ui = UI.getCurrent();
-        String serverUser = username.getValue();
-        int serverPasswordLength = password.getValue().length();
 
         ui.getPage().executeJs("return document.getElementById('login-username').value;")
                 .then(String.class, browserUser ->
@@ -92,9 +97,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                                 .then(String.class, browserPassword -> {
                                     String name = browserUser == null ? "" : browserUser;
                                     String pass = browserPassword == null ? "" : browserPassword;
-                                    log.info("Form login: server(username='{}', panjang password={}) "
-                                                    + "browser(username='{}', panjang password={})",
-                                            serverUser, serverPasswordLength, name, pass.length());
                                     doLogin(name, pass);
                                 }));
     }
