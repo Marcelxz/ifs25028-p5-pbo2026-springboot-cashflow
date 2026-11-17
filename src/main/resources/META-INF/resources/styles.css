@@ -173,3 +173,36 @@ vaadin-drawer-toggle[disabled] {
 vaadin-connection-indicator .v-status-message {
     display: none !important;
 }
+
+/* ---------- Placeholder awal (eksperimen performa) ----------
+   Tampil dari CSS saja, sebelum bundel Vaadin selesai dimuat dan halaman digambar.
+   Tidak menambah elemen DOM, jadi tidak memengaruhi Axe maupun CLS (position: fixed). */
+body::before {
+    content: "Memuat Cashflow...";
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #374151;
+    background: #F9FAFB;
+    pointer-events: none;
+    z-index: 1;
+    /* Jaring pengaman: hilang sendiri setelah 6 detik walau aplikasi gagal dimuat */
+    animation: cashflow-splash-out 0.01s linear 6s forwards;
+}
+
+/* Hilang segera setelah halaman Vaadin (Login/Register atau layout utama) muncul */
+body:has(vaadin-vertical-layout, vaadin-app-layout)::before {
+    display: none;
+}
+
+@keyframes cashflow-splash-out {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
