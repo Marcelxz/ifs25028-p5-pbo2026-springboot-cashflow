@@ -202,10 +202,6 @@
                         <groupId>com.vaadin</groupId>
                         <artifactId>vaadin-maven-plugin</artifactId>
                         <version>${vaadin.version}</version>
-                        <configuration>
-                            <!-- Sisipkan UIDL awal ke index.html: hemat satu round-trip ke server saat load pertama -->
-                            <eagerServerLoad>true</eagerServerLoad>
-                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
